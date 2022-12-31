@@ -73,13 +73,14 @@ public:
 
     unsigned long nowUs = micros();
 
-    // We sample every 50us and smooth over a window
+    // We sample at a regular interval and smooth over a window
     if (nowUs - _timer0 > _intervalUs) {
   
       // Reset timer
       _timer0 = nowUs;
       
-      // Add a sample to the low-pass filter
+      // Add a sample to the low-pass filters in order to eliminate 
+      // bounce-related noise.  
       _lag0.add((digitalRead(_pin0) == HIGH) ? 255 : 0);
       _lag1.add((digitalRead(_pin1) == HIGH) ? 255 : 0);
   
